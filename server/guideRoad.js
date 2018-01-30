@@ -1,11 +1,13 @@
 var express = require('express');
 var http = require('http');
 var qs = require('querystring');  
-
+var setting = require('../config/setting');
 var router = express.Router();
-router.get('/', function(request, resp, next) {
+
+router.get('/', (request, resp, next) => {
     var param = request.query;
-    console.log(qs.stringify(param))
+    param.key = setting.key;
+    param.policy = setting.policy;
     var options = {
         hostname: "apis.map.qq.com",
         path: "/ws/direction/v1/driving/?" + qs.stringify(param),
