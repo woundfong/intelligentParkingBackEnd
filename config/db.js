@@ -1,10 +1,10 @@
 module.exports =
  {  
     mysql: {
-        host: '127.0.0.1',     
+        host: 'huanfeng.site',     
         user: 'root',   
         password: '123456',  
-        database:'intelligentParking',
+        database:'intelligent_parking_sys',
         port: 3306
     }
  };

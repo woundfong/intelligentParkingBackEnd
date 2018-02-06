@@ -4,7 +4,7 @@ var mysql = require('mysql');
 var db = require('../config/db');
 var pool = mysql.createPool(db.mysql);
 
-var SQL = "select * from parking_lot where latitude > ? and latitude < ? and longitude > ? and longitude < ?";
+var SQL = "select * from parking_unit where latitude > ? and latitude < ? and longitude > ? and longitude < ?";
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
@@ -22,10 +22,9 @@ router.get('/', (req, res, next) => {
             res.json(result);
             console.log("mysql error: " + err.sqlMessage);
           }else {
-            //res.send(queryResult);
             result.msg = "query successfully";
             result.code = '200';
-            result.parkingLots = queryResult;
+            result.parkingUnits = queryResult;
             res.json(result);
           }
         })
