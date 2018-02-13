@@ -8,12 +8,14 @@ var guide = require('./guideRoad');
 var location = require('./location');
 var login = require('./login');
 var generate = require('../public/javascripts/generateParking')
+var getMasterUserInfo = require('./getMasterUserInfo')
 
 app.use('/getParkinglots', getParkinglots);
 app.use('/getParkingUnits', getParkingUnits);
 app.use('/guide', guide);
 app.use('/location', location);
 app.use('/login', login);
+app.use('/getMasterUserInfo', getMasterUserInfo);
 app.use('/generate', (req, res)=>{
     generate();
     res.send('done');
