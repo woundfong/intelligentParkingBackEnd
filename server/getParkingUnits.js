@@ -8,14 +8,24 @@ var SQL = "select * from parking_unit where latitude > ? and latitude < ? and lo
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
-  var region = req.query.region;
-  region = JSON.parse(region);
-  console.log(region.northeast);
-  var north = region.northeast.latitude, south = region.southwest.latitude,
-      west = region.southwest.longitude, east = region.northeast.longitude;
+  var params = [];
   var result = {};
+  var region = req.query.region;
+  if(typeof region !== "undefined") {
+    region = JSON.parse(region);
+    //console.log(region.northeast);
+    var north = region.northeast.latitude, south = region.southwest.latitude,
+      west = region.southwest.longitude, east = region.northeast.longitude;
+    params = [south, north, west, east];
+  }
+  
+  var master = req.query.master;
+  if(typeof master !== "undefined") {
+    SQL = "select * from parking_unit where master = ?";
+    params = [master];
+  }
   pool.getConnection((err, connection) => {
-        connection.query(SQL, [south, north, west, east], (err, queryResult) => {
+        connection.query(SQL, params, (err, queryResult) => {
           if(err) {
             result.msg = "error: " + err.sqlMessage;
             result.code = '0';
