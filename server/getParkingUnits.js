@@ -21,7 +21,7 @@ router.get('/', (req, res, next) => {
   
   var master = req.query.master;
   if(typeof master !== "undefined") {
-    SQL = "select * from parking_unit where master = ?";
+    SQL = "select * from parking_unit where master_id = ?";
     params = [master];
   }
   pool.getConnection((err, connection) => {
