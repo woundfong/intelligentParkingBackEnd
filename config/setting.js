@@ -5,7 +5,10 @@ const SETTING = {
     grant_type: 'authorization_code',
     policy: 'REAL_TRAFFIC',
     mapApiHostname: 'apis.map.qq.com',
-    loginApiHostname: 'api.weixin.qq.com'
+    loginApiHostname: 'api.weixin.qq.com',
+    aliAccessKeyId: 'LTAIZx6e15HOZBuT',
+    aliSecretAccessKey: 'bxBne2CvFJIwBYbVLlNoZLOJ8QUz69',
+    aliTemplateCode: 'SMS_126357243'
 }
 
 module.exports = SETTING;

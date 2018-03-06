@@ -1,0 +1,31 @@
+var express = require('express');
+var router = express.Router();
+var mySqlQuery = require('./mySqlQuery');
+var getDate = require('./getDate');
+
+var SQL = "select * from verify_table where phone_num = ? and code = ? and start_time > ?";
+
+router.get('/', (req, res, next) => {
+    var validMinsAgoDate = getDate.getFormatValidDate("yyyy-MM-dd hh:mm:ss");
+    console.log(validMinsAgoDate)
+    var phoneNum = req.query.phoneNum, code = req.query.code;
+    var result = {};
+    mySqlQuery(SQL, [phoneNum, code, validMinsAgoDate], (err, queryResult) => {
+        if(err) {
+            result.code = '0';
+            result.errMsg = "服务器异常";
+            res.json(result);
+            throw err;
+        }
+        result.code = '200';
+        result.errMsg = "check successfully";
+        console.log(queryResult)
+        if(queryResult.length > 0) {
+            result.isValid = true;
+        } else {
+            result.isValid = false;
+        }
+        res.json(result);
+    });
+})
+module.exports = router;

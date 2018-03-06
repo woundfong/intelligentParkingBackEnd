@@ -1,37 +1,42 @@
 var express = require('express');
 var router = express.Router();
-var mysql = require('mysql');
-var db = require('../config/db');
-var pool = mysql.createPool(db.mysql);
+var mySqlQuery = require('./mySqlQuery');
 
 var SQL = {
-    query_users: 'select * from users where id = ?',
-    query_master: 'select * from master where id = ?'
+    query_users: "select * from users where user_id = ?",
+    query_master: "select * from master where user_id = ?"
 }
 
 router.get('/', (req, res, next) => {
     var result = {};
     var account = req.query.account;
-    pool.getConnection((err, connection) => {
-        connection.query(SQL.query_master, [account], (err, queryResult) => {
+    mySqlQuery(SQL.query_users, [account], (err, queryUserResult) => {
+        if(err) {
+            result.errMsg = "服务器异常";
+            result.code = '0';
+            res.json(result);
+            throw err;
+        }
+        result.userInfo = queryUserResult[0];
+        mySqlQuery(SQL.query_master, [account], (err, queryMasterResult) => {
             if(err) {
-                result.msg = "error: " + err.sqlMessage;
+                result.errMsg = "服务器异常";
                 result.code = '0';
                 res.json(result);
-                console.log("mysql error: " + err.sqlMessage);
-            }else {
-                result.msg = "query successfully";
-                result.code = '200';
-                if(queryResult.length <= 0) {
-                    result.role = 'not_master';
-                    res.json(result);
-                }else {
-                    result.role = 'master';
-                    res.json(result);
-                }
+                throw err;
             }
-        })
-    })
+            if(queryMasterResult.length <= 0) {
+                result.role = 'not_master';
+            }else {
+                result.role = 'master';
+                result.master_id = queryMasterResult[0].master_id;
+            }
+            result.errMsg = "query successfully";
+            result.code = '200';
+            res.json(result);
+        });
+    });
+    
 })
 
 module.exports = router;

@@ -12,13 +12,13 @@ var SQL = {
 }
 
 function generateParkingLots() {
-    var num = 200;
+    var num = 100;
     pool.getConnection((err, connection) => {
         for(var i = 0; i < num; i++) {
             var latitude = rnd(2290000, 2305000) / 100000;
             var longitude =  rnd(11327000, 11344000) / 100000;
             
-            connection.query(SQL.insert_prakingUnit, ["admin", latitude, longitude], (err, result)=>{
+            connection.query(SQL.insert_parkingLot, [20, 20, 1, latitude, longitude, 1], (err, result)=>{
                 if(result) {
                     console.log('success');
                 }else {
