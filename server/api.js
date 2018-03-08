@@ -11,6 +11,8 @@ var generate = require('../public/javascripts/generateParking')
 var getMasterUserInfo = require('./getMasterUserInfo');
 var sendVerificationCode = require('./sendVerificationCode');
 var checkVerificationCode = require('./checkVerificationCode');
+var getLicensePlates = require('./getLicensePlates');
+
 var updateUserInfo = require('./updateUserInfo');
 app.use('/getParkinglots', getParkinglots);
 app.use('/getParkingUnits', getParkingUnits);
@@ -21,6 +23,7 @@ app.use('/getUserInfo', getMasterUserInfo);
 app.use('/sendVerificationCode', sendVerificationCode);
 app.use('/checkVerificationCode', checkVerificationCode);
 app.use('/updateUserInfo', updateUserInfo);
+app.use('/getLicensePlates', getLicensePlates);
 app.use('/generate', (req, res)=>{
     generate();
     res.send('done');

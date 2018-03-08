@@ -8,12 +8,11 @@ router.get('/', (req, res, next) => {
     var result = {};
     var account = req.query.account;
     if(typeof req.query.phoneNum !== "undefined") {
-        SQL += " phone = '" + req.query.phoneNum + "'";
+        SQL = "update users set phone = '" + req.query.phoneNum + "' where user_id = '" + account + "'";
     }
-    if(typeof req.query.license !== "undefined") {
-        SQL += " license = '" + req.query.license + "'";
+    if(typeof req.query.license_plate !== "undefined") {
+        SQL = "insert into license_plate(license_plate, owner) values('" + req.query.license_plate + "','" + account + "')";
     }
-    SQL += " where user_id = '" + account + "'";
     console.log(SQL)
     mySqlQuery(SQL, [], (err, queryResult) => {
         if(err) {
