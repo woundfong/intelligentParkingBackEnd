@@ -1,44 +1,44 @@
-var http = require('http');
-var https = require('https');
+let http = require('http');
+let https = require('https');
 
-var my_http = {
-    get: (options, resp) => {
-        var result = {};
-        var req = http.request(options, res => {
-            var data = "";
+let my_http = {
+    get: (options, callback) => {
+        let result = {};
+        let req = http.request(options, res => {
+            let data = "";
             res.on('data', (chunk)=>{
                 data += chunk;
             });
             res.on('end', ()=>{
                 result.code = '200';
                 result.data = JSON.parse(data);
-                resp.json(result);
+                callback(result);
             })
         });
         req.on('error', error => {
             result.code = '0';
             result.data = error.message;
-            resp.json(result);
+            callback(result);
         });
         req.end();
     },
-    https_get: (options, resp) => {
-        var result = {};
-        var req = https.request(options, res => {
-            var data = "";
+    https_get: (options, callback) => {
+        let result = {};
+        let req = https.request(options, res => {
+            let data = "";
             res.on('data', (chunk)=>{
                 data += chunk;
             });
             res.on('end', ()=>{
                 result.code = '200';
                 result.data = JSON.parse(data);
-                resp.json(result);
+                callback(result);
             })
         });
         req.on('error', error => {
             result.code = '0';
             result.data = error.message;
-            resp.json(result);
+            callback(result);
         });
         req.end();
     }

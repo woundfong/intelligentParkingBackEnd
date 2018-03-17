@@ -1,16 +1,16 @@
-var express = require('express');
-var router = express.Router();
-var mySqlQuery = require('./mySqlQuery');
-var getDate = require('./getDate');
+let express = require('express');
+let router = express.Router();
+let mySqlQuery = require('../public/mySqlQuery');
+let getDate = require('../public/getDate');
 
-var SQL = "select * from verify_table where phone_num = ? and code = ? and start_time > ?";
+let sql = "select * from verify_table where phone_num = ? and code = ? and start_time > ?";
 
 router.get('/', (req, res, next) => {
-    var validMinsAgoDate = getDate.getFormatValidDate("yyyy-MM-dd hh:mm:ss");
+    let validMinsAgoDate = getDate.getFormatValidDate("yyyy-MM-dd hh:mm:ss");
     console.log(validMinsAgoDate)
-    var phoneNum = req.query.phoneNum, code = req.query.code;
-    var result = {};
-    mySqlQuery(SQL, [phoneNum, code, validMinsAgoDate], (err, queryResult) => {
+    let phoneNum = req.query.phoneNum, code = req.query.code;
+    let result = {};
+    mySqlQuery(sql, [phoneNum, code, validMinsAgoDate], (err, queryResult) => {
         if(err) {
             result.code = '0';
             result.errMsg = "服务器异常";

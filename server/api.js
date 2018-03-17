@@ -2,33 +2,27 @@ const express = require('express');
 const router = express.Router();
 
 var app = express();
-var getParkinglots = require('./getParkinglots');
-var getParkingUnits = require('./getParkingUnits');
-var guide = require('./guideRoad');
-var location = require('./location');
-var login = require('./login');
-var generate = require('../public/javascripts/generateParking')
-var getMasterUserInfo = require('./getMasterUserInfo');
-var sendVerificationCode = require('./sendVerificationCode');
-var checkVerificationCode = require('./checkVerificationCode');
-var getLicensePlates = require('./getLicensePlates');
 
-var updateUserInfo = require('./updateUserInfo');
-app.use('/getParkinglots', getParkinglots);
-app.use('/getParkingUnits', getParkingUnits);
-app.use('/guide', guide);
-app.use('/location', location);
-app.use('/login', login);
-app.use('/getUserInfo', getMasterUserInfo);
-app.use('/sendVerificationCode', sendVerificationCode);
-app.use('/checkVerificationCode', checkVerificationCode);
-app.use('/updateUserInfo', updateUserInfo);
-app.use('/getLicensePlates', getLicensePlates);
-app.use('/generate', (req, res)=>{
-    generate();
+var generateParkingLot = require('../public/javascripts/generateParkingLot');
+var generateParkingUnit = require('../public/javascripts/generateParkingUnit');
+var userService = require('./user-service/userApi');
+var parkingService = require('./parking-service/parkingApi');
+var authService = require('./auth-service/authApi')
+var mapService = require('./map-service/mapApi')
+
+app.use('/user', userService);
+app.use('/parking', parkingService);
+app.use('/auth', authService);
+app.use('/map', mapService);
+
+app.use('/generateParkingLot', (req, res)=>{
+    generateParkingLot();
     res.send('done');
 })
-
+app.use('/generateParkingUnit', (req, res)=>{
+    generateParkingUnit();
+    res.json('done')
+})
 app.use('/', (req, res)=> {
     res.send('api works');
 })

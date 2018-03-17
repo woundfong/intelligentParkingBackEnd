@@ -1,8 +1,8 @@
-var mysql = require('mysql');
-var db = require('../config/db');
-//var pool = mysql.createPool(db.mysql);
-var pool;
-var mysqlPool = {
+let mysql = require('mysql');
+let db = require('../../config/db');
+//let pool = mysql.createPool(db.mysql);
+let pool;
+let mysqlPool = {
     createPool: function() {
         pool = mysql.createPool(db.mysql);
         return pool;

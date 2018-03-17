@@ -1,15 +1,15 @@
 /**
  * Created on 2017-07-31
  */
-var setting = require('../config/setting');
-var generateVerificationCode = require('./generateVerificationCode');
-var express = require('express');
-var router = express.Router();
-var mysql = require('mysql');
-var db = require('../config/db');
-var pool = mysql.createPool(db.mysql);
-var getDate = require('./getDate');
-var SQL = "insert into verify_table(phone_num, start_time, code) values(?, ?, ?)";
+let setting = require('../../config/setting');
+let generateVerificationCode = require('./generateVerificationCode');
+let express = require('express');
+let router = express.Router();
+let mysql = require('mysql');
+let db = require('../../config/db');
+let pool = mysql.createPool(db.mysql);
+let getDate = require('../public/getDate');
+let sql = "insert into verify_table(phone_num, start_time, code) values(?, ?, ?)";
 
 const SMSClient = require('@alicloud/sms-sdk')
 const accessKeyId = setting.aliAccessKeyId;
@@ -18,14 +18,14 @@ const templateCode = setting.aliTemplateCode;
 //初始化sms_client
 let smsClient = new SMSClient({accessKeyId, secretAccessKey})
 
-router.get('/', (req, res, next) => {
-    var code = generateVerificationCode();
-    var phoneNum = req.query.phoneNum;
-    var templateParamJson = {
+router.post('/', (req, res, next) => {
+    let code = generateVerificationCode();
+    let phoneNum = req.body.phoneNum;
+    let templateParamJson = {
         "code": code
     }
-    var templateParam = JSON.stringify(templateParamJson);
-    var result = {};
+    let templateParam = JSON.stringify(templateParamJson);
+    let result = {};
     pool.getConnection((err, connection) => {
         connection.beginTransaction(err => {
             if(err) {
@@ -34,8 +34,8 @@ router.get('/', (req, res, next) => {
                 res.json(result);
                 throw err;
             }
-            var start_time = getDate.getNowFormat("yyyy-MM-dd hh:mm:ss");
-            connection.query(SQL, [phoneNum, start_time, code], (err, queryResult) => {
+            let start_time = getDate.getNowFormat("yyyy-MM-dd hh:mm:ss");
+            connection.query(sql, [phoneNum, start_time, code], (err, queryResult) => {
                 if(err) {
                     result.code = '0';
                     result.errMsg = "服务器异常";
@@ -59,7 +59,7 @@ router.get('/', (req, res, next) => {
                         TemplateParam: templateParam
                     }).then(function (resp) {
                         console.log(resp)
-                        var code = resp.Code;
+                        let code = resp.Code;
                         if (code === 'OK') {
                             result.errMsg = "send successfully";
                             result.code = '200';

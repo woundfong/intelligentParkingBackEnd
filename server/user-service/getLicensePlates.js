@@ -1,13 +1,13 @@
-var express = require('express');
-var router = express.Router();
-var mySqlQuery = require('./mySqlQuery');
+let express = require('express');
+let router = express.Router();
+let mySqlQuery = require('../public/mySqlQuery');
 
-var SQL = "select * from license_plate where owner = ?";
+let sql = "select * from license_plate where owner = ?";
 
 router.get('/', (req, res, next) => {
-    var result = {};
-    var owner = req.query.owner;
-    mySqlQuery(SQL, [owner], (err, queryResult) => {
+    let result = {};
+    let owner = req.query.owner;
+    mySqlQuery(sql, [owner], (err, queryResult) => {
         if(err) {
             result.errMsg = "服务器异常";
             result.code = '0';
