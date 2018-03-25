@@ -8,14 +8,8 @@ router.post('/', (req, res, next) => {
         address = req.body.address, remark = req.body.remark,
         latitude = req.body.latitude, longitude = req.body.longitude,
         master_id = req.body.master_id;
-    if(req.body.type == 'unit') {
-        sql = "INSERT INTO parking_unit(parking_unit_id, master_id, latitude, longitude, address, remark, create_time)" +
-              " VALUES(nextval('parking_unit'),?,?,?,?,?,?)";
-    } else if(req.body.type == 'lot') {
-        sql = "INSERT INTO parking_lot(master_id, latitude, longitude, address, remark, create_time)" +
-              " VALUES(?,?,?,?,?,?)";
-    }
-    params = [master_id, latitude, longitude, address, remark, date];
+    sql = "insert into applying_list(apply_master_id,type,remark,address,apply_date,latitude,longitude) values(?,?,?,?,?,?,?)";
+    params = [master_id, req.body.type, remark, address, date, latitude, longitude];
     mySqlQuery(sql, params, (err, queryResult) => {
         if(err) {
             result.errMsg = "服务器异常";

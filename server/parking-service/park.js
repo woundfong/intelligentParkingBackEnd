@@ -4,11 +4,7 @@ let mySqlQuery = require('../public/mySqlQuery');
 
 router.post('/', (req, res, next) => {
     let type = req.body.type, sql = "", result = {}, params = [];
-    if(type == "parkingUnit") {
-      sql = "insert into parking_unit_occupied_table values(?,?,?,?)";
-    } else {
-      sql = "insert into parking_lot_occupied_table values(?,?,?,?)";
-    }
+    sql = "insert into occupied_table(occ_parking_unit_id,user_id,start_time,estimated_end_time) values(?,?,?,?)";
     let now = new Date(), end_time = new Date(req.body.estimated_end_time);
     params = [req.body.id, req.body.user, now, end_time];
     mySqlQuery(sql, params, (err, queryResult) => {

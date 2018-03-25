@@ -12,11 +12,11 @@ function rnd(m, n) {
 //     insert_parkingLot: 'INSERT INTO parking_lot(pos_num, free_num, master_id, latitude, longitude, chart_id) VALUES(?,?,?,?,?,?)',
 //     insert_prakingUnit: 'INSERT INTO parking_unit(master_id, latitude, longitude) VALUES(?,?,?)'
 // }
-let sql = "INSERT INTO parking_unit(parking_unit_id, master_id, latitude, longitude, address, adcode, remark, create_time)" +
-    " VALUES(nextval('parking_unit'),?,?,?,?,?,?,?)"
+let sql = "INSERT INTO parking_unit(master_id, parking_lot_id, latitude, longitude, address, remark, create_time)" +
+    " VALUES(?,?,?,?,?,?,?)"
 
 function generateParkingUnit() {
-    let num = 1;
+    let count = 1, num = 199;
     pool.getConnection((err, connection) => {
         function insertParkingUnit() {
             let latitude = rnd(2290000, 2305000) / 100000;
@@ -34,20 +34,19 @@ function generateParkingUnit() {
             myHttp.get(options, res => {
                 if(res.code == '200') {
                     let result = res.data;
-                    let address = result.result.formatted_addresses.recommend,
-                        adcode = result.result.ad_info.adcode;
+                    let address = result.result.formatted_addresses.recommend;
                     let date = new Date();
-                    connection.query(sql, [1, latitude, longitude, address, adcode, remark, date], (err, result)=>{
+                    connection.query(sql, [1, 1, latitude, longitude, address, remark, date], (err, result)=>{
                         if(result) {
-                            console.log('success');
+                            console.log('success ' + count);
                         }else {
                             console.log('error  ' + err.sqlMessage)
                         }
                         
                     })
-                    num++;
+                    count++;
                     setTimeout(() => {
-                        if(num <= 200) {
+                        if(count <= num) {
                             insertParkingUnit();
                         } else {
                             connection.release();

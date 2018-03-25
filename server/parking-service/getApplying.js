@@ -3,7 +3,7 @@ let router = express.Router();
 let mySqlQuery = require('../public/mySqlQuery');
 
 let sql = "select apply_id,apply_date,address,remark from applying_list " +
-          "where master_id = ?";
+          "where apply_master_id = ?";
 
 router.get('/', (req, res, next) => {
     let params = [req.query.master], result = {};
