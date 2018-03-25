@@ -20,7 +20,7 @@ router.get('/', (req, res, next) => {
   } else if(query.master) {
     let master = query.master;
     master = parseInt(master);
-    sql = "select * from parking_unit p left join parking_unit_occupied_table p_occ on "
+    sql = "select * from parking_unit p left join occupied_table p_occ on "
     + "p.parking_unit_id = p_occ.occ_parking_unit_id where p.master_id = ?";
     params = [master];
   }
