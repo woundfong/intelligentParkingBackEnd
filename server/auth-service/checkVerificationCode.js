@@ -3,7 +3,7 @@ let router = express.Router();
 let mySqlQuery = require('../public/mySqlQuery');
 let getDate = require('../public/getDate');
 
-let sql = "select * from verify_table where phone_num = ? and code = ? and start_time > ?";
+let sql = "select * from msg_codes where phone_num = ? and code = ? and start_time > ?";
 
 router.get('/', (req, res, next) => {
     let validMinsAgoDate = getDate.getFormatValidDate("yyyy-MM-dd hh:mm:ss");

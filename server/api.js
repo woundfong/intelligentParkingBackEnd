@@ -1,19 +1,21 @@
 const express = require('express');
 const router = express.Router();
 
-var app = express();
+const app = express();
 
-var generateParkingLot = require('../public/javascripts/generateParkingLot');
-var generateParkingUnit = require('../public/javascripts/generateParkingUnit');
-var userService = require('./user-service/userApi');
-var parkingService = require('./parking-service/parkingApi');
-var authService = require('./auth-service/authApi')
-var mapService = require('./map-service/mapApi')
+const generateParkingLot = require('../public/javascripts/generateParkingLot');
+const generateParkingUnit = require('../public/javascripts/generateParkingUnit');
+const userService = require('./user-service/userApi');
+const parkingService = require('./parking-service/parkingApi');
+const authService = require('./auth-service/authApi');
+const mapService = require('./map-service/mapApi');
+const walletService = require('./wallet-service/walletApi');
 
 app.use('/user', userService);
 app.use('/parking', parkingService);
 app.use('/auth', authService);
 app.use('/map', mapService);
+app.use('/wallet', walletService);
 
 app.use('/generateParkingLot', (req, res)=>{
     generateParkingLot();

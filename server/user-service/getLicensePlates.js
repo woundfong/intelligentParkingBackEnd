@@ -2,7 +2,7 @@ let express = require('express');
 let router = express.Router();
 let mySqlQuery = require('../public/mySqlQuery');
 
-let sql = "select * from license_plate where owner = ?";
+let sql = "select license_plate from license_plate where owner = ?";
 
 router.get('/', (req, res, next) => {
     let result = {};

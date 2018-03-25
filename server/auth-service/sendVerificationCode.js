@@ -9,7 +9,7 @@ let mysql = require('mysql');
 let db = require('../../config/db');
 let pool = mysql.createPool(db.mysql);
 let getDate = require('../public/getDate');
-let sql = "insert into verify_table(phone_num, start_time, code) values(?, ?, ?)";
+let sql = "insert into msg_codes(phone_num, start_time, code) values(?, ?, ?)";
 
 const SMSClient = require('@alicloud/sms-sdk')
 const accessKeyId = setting.aliAccessKeyId;

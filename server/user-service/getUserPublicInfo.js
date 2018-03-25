@@ -15,7 +15,7 @@ router.get('/', (req, res, next) => {
         }
         result.errMsg = "query successfully";
         result.code = '200';
-        result.publicInfo = queryResult;
+        result.publicInfo = queryResult[0];
         res.json(result);
     })
 })
