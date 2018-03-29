@@ -20,7 +20,7 @@ function generateParkingLots() {
     pool.getConnection((err, connection) => {
         if(err) {
             console.log(err);
-            throw err;
+            return false;
         }
         function insertParkingUnit() {
             let latitude = rnd(2290000, 2305000) / 100000;
@@ -36,7 +36,7 @@ function generateParkingLots() {
                 method: 'GET'
             };
             myHttp.get(options, res => {
-                if(res.code == '200') {
+                if(res.code == "200") {
                     let result = res.data;
                     let address = result.result.formatted_addresses.recommend;
                     let date = new Date();

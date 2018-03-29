@@ -10,13 +10,13 @@ let my_http = {
                 data += chunk;
             });
             res.on('end', ()=>{
-                result.code = '200';
+                result.code = "200";
                 result.data = JSON.parse(data);
                 callback(result);
             })
         });
         req.on('error', error => {
-            result.code = '0';
+            result.code = "0";
             result.data = error.message;
             callback(result);
         });
@@ -30,13 +30,13 @@ let my_http = {
                 data += chunk;
             });
             res.on('end', ()=>{
-                result.code = '200';
+                result.code = "200";
                 result.data = JSON.parse(data);
                 callback(result);
             })
         });
         req.on('error', error => {
-            result.code = '0';
+            result.code = "0";
             result.data = error.message;
             callback(result);
         });

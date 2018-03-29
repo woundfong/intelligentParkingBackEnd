@@ -10,13 +10,13 @@ router.get('/', (req, res, next) => {
     mySqlQuery(sql, [owner], (err, queryResult) => {
         if(err) {
             result.errMsg = "服务器异常";
-            result.code = '0';
+            result.code = "0";
             res.json(result);
-            throw err;
+            return false;
         }
         result.licensePlates = queryResult;
         result.errMsg = "query successfully";
-        result.code = '200';
+        result.code = "200";
         res.json(result);
     })
 })

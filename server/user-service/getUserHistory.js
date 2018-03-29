@@ -2,21 +2,20 @@ let express = require('express');
 let router = express.Router();
 let mySqlQuery = require('../public/mySqlQuery');
 
-router.get('/', (req, res, next) => {
-    let params = [], result = {}, sql = "";
-    sql = "select occ_parking_unit_id,start_time,estimated_end_time from occupied_table" +
-            " where user_id = ?"
-    params = [req.query.user, req.query.user]; 
+router.get('/unread', (req, res, next) => {
+    let result = {}, sql = "select parking_history_id from parking_history where user_id = ? and has_read = 0",
+        params = [req.query.user]; 
     mySqlQuery(sql, params, (err, queryResult) => {
     if(err) {
       result.errMsg = "服务器异常";
-      result.code = '0';
+      result.code = "0";
       res.json(result);
       throw err;
+      return false;
     }
     result.errMsg = "query successfully";
-    result.code = '200';
-    result.occInfo = queryResult;
+    result.code = "200";
+    result.history = queryResult;
     res.json(result);
   })
 })

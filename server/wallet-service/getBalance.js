@@ -9,12 +9,12 @@ router.get('/', (req, res, next) => {
     mySqlQuery(sql, params, (err, queryResult) => {
     if(err) {
       result.errMsg = "服务器异常";
-      result.code = '0';
+      result.code = "0";
       res.json(result);
-      throw err;
+      return false;
     }
     result.errMsg = "query successfully";
-    result.code = '200';
+    result.code = "200";
     result.balance = queryResult[0].balance;
     res.json(result);
   })

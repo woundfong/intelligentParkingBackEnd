@@ -30,6 +30,18 @@ let getDate = {
         date.setMinutes(min - valid_min);
         let time = date.format(format);
         return time;
+    },
+    deeplyCloneDate: function(date) {
+        let newDate = new Date();
+        let year = date.getFullYear(), month = date.getMonth(), day = date.getDate(),
+            hour = date.getHours(), min = date.getMinutes(), sec = date.getSeconds();
+        newDate.setFullYear(year);
+        newDate.setMonth(month);
+        newDate.setDate(day);
+        newDate.setHours(hour);
+        newDate.setMinutes(min);
+        newDate.setSeconds(sec);
+        return newDate; 
     }
 }
 

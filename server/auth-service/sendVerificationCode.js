@@ -1,14 +1,14 @@
 /**
  * Created on 2017-07-31
  */
-let setting = require('../../config/setting');
-let generateVerificationCode = require('./generateVerificationCode');
-let express = require('express');
-let router = express.Router();
-let mysql = require('mysql');
-let db = require('../../config/db');
-let pool = mysql.createPool(db.mysql);
-let getDate = require('../public/getDate');
+const setting = require('../../config/setting');
+const generateVerificationCode = require('./generateVerificationCode');
+const express = require('express');
+const router = express.Router();
+const mysql = require('mysql');
+const db = require('../../config/db');
+const pool = mysql.createPool(db.mysql);
+const getDate = require('../public/getDate');
 let sql = "insert into msg_codes(phone_num, start_time, code) values(?, ?, ?)";
 
 const SMSClient = require('@alicloud/sms-sdk')
@@ -29,32 +29,32 @@ router.post('/', (req, res, next) => {
     pool.getConnection((err, connection) => {
         connection.beginTransaction(err => {
             if(err) {
-                result.code = '0';
+                result.code = "0";
                 result.errMsg = "服务器异常";
                 res.json(result);
-                throw err;
+                return false;
             }
             let start_time = getDate.getNowFormat("yyyy-MM-dd hh:mm:ss");
             connection.query(sql, [phoneNum, start_time, code], (err, queryResult) => {
                 if(err) {
-                    result.code = '0';
+                    result.code = "0";
                     result.errMsg = "服务器异常";
                     res.json(result);
-                    throw err;
+                    return false;
                 }
                 connection.commit(err => {
                     if(err) {
                         connection.rollback(() => {
-                            result.code = '0';
+                            result.code = "0";
                             result.errMsg = "服务器异常";
                             res.json(result);
-                            throw err;
+                            return false;
                         })
                     }
                     //发送短信
                     smsClient.sendSMS({
                         PhoneNumbers: phoneNum,
-                        SignName: '周焕丰的共享系统',
+                        SignName: 'iPark',
                         TemplateCode: templateCode,
                         TemplateParam: templateParam
                     }).then(function (resp) {
@@ -62,15 +62,15 @@ router.post('/', (req, res, next) => {
                         let code = resp.Code;
                         if (code === 'OK') {
                             result.errMsg = "send successfully";
-                            result.code = '200';
+                            result.code = "200";
                             res.json(result);
                         }
                     }, function (err) {
                         connection.rollback(() => {
-                            result.code = '0';
+                            result.code = "0";
                             result.errMsg = err;
                             res.json(result);
-                            throw err;
+                            return false;
                         })
                     })
                 })

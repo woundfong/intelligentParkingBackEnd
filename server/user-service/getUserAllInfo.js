@@ -17,9 +17,9 @@ router.get('/', (req, res, next) => {
     mySqlQuery(sql, [account, account], (err, queryUserResults) => {
         if(err) {
             result.errMsg = "服务器异常";
-            result.code = '0';
+            result.code = "0";
             res.json(result);
-            throw err;
+            return false;
         }
         result.userInfo = queryUserResults[0][0];
         result.userInfo.licensePlates = queryUserResults[1];
@@ -30,7 +30,7 @@ router.get('/', (req, res, next) => {
         //     result.userInfo.master_id = queryUserResults[1][0].master_id;
         // }
         result.errMsg = "query successfully";
-        result.code = '200';
+        result.code = "200";
         res.json(result);
     })
     

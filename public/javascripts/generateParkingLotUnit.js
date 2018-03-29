@@ -27,7 +27,7 @@ function generateParkingUnit() {
                 method: 'GET'
             };
             myHttp.get(options, res => {
-                if(res.code == '200') {
+                if(res.code == "200") {
                     var result = res.data;
                     var address = result.result.formatted_addresses.recommend,
                         adcode = result.result.ad_info.adcode;

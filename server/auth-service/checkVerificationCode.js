@@ -12,12 +12,12 @@ router.get('/', (req, res, next) => {
     let result = {};
     mySqlQuery(sql, [phoneNum, code, validMinsAgoDate], (err, queryResult) => {
         if(err) {
-            result.code = '0';
+            result.code = "0";
             result.errMsg = "服务器异常";
             res.json(result);
-            throw err;
+            return false;
         }
-        result.code = '200';
+        result.code = "200";
         result.errMsg = "check successfully";
         console.log(queryResult)
         if(queryResult.length > 0) {
