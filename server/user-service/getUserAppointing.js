@@ -4,7 +4,7 @@ const getUserParkingStatus = require('./getUserParkingStatus');
 
 router.get('/', (req, res, next) => {
     let result = {};
-    getUserParkingStatus(req.query.user, "occ", (err, status, queryResult) => {
+    getUserParkingStatus(req.query.user, "appoint", (err, status, queryResult) => {
       if(err) {
         result.errMsg = "服务器异常";
         result.code = "0";
@@ -14,11 +14,11 @@ router.get('/', (req, res, next) => {
       result.code = "200";
       result.errMsg = "query successfully!";
       if(status == 1) {
-        result.isOcc = false;
+        result.hasAppo = false;
         res.json(result);
       } else {
-        result.isOcc = true;
-        result.occInfo = queryResult[0];
+        result.hasAppo = true;
+        result.appoInfo = queryResult[0];
         res.json(result);
       }
     })

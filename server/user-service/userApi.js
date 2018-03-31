@@ -6,6 +6,7 @@ const getUserPublicInfo = require('./getUserPublicInfo');
 const getLicensePlates = require('./getLicensePlates');
 const updateUserInfo = require('./updateUserInfo');
 const getUserOccupying = require('./getUserOccupying');
+const getUserAppointing = require('./getUserAppointing');
 const getUserHistory = require('./getUserHistory');
 app.use('/applyMaster', applyToBeMaster);
 app.use('/getUserAllInfo', getUserAllInfo);
@@ -13,6 +14,7 @@ app.use('/getUserPublicInfo', getUserPublicInfo);
 app.use('/getLicensePlates', getLicensePlates);
 app.use('/updateUserInfo', updateUserInfo);
 app.use('/getUserOccupying', getUserOccupying);
+app.use('/getUserAppointing', getUserAppointing);
 app.use('/getUserHistory', getUserHistory);
 app.use('/', (req, res)=> {
     res.send('user api works');

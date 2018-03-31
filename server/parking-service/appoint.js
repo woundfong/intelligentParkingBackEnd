@@ -23,15 +23,18 @@ router.post('/', (req, res, next) => {
             result.code = "0";
             result.json(result);
         } else {
-            sql = "insert into appointment_table(start_time,estimated_end_time,appoint_parking_unit_id,user_id,deposit,arrived) " +
-                  "values(?,?,?,?,?,0)";
-            let now = new Date();
-            params = [now, req.body.endTime, req.body.parkingUnitId, req.body.user, req.body.deposit];
+            sql = "insert into appointment_table(start_time,estimated_end_time,appoint_parking_unit_id,user_id,deposit) " +
+                  "values(?,?,?,?,2)";
+            let now = new Date(), endTime = new Date(req.body.endTime);
+            let endMin = endTime.getMinutes();
+            endTime.setMinutes(endMin + 10);
+            params = [now, endTime, req.body.parkingUnitId, req.body.user];
             mySqlQuery(sql, params, (err, queryResult) => {
                 if(err) {
                     result.errMsg = "服务器异常";
                     result.code = "0";
                     res.json(result);
+                    throw err;
                     return false;
                 }
                 result.code = "200";

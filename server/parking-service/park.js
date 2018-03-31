@@ -9,8 +9,9 @@ router.post('/', (req, res, next) => {
     let now = new Date();
     occParams = [req.body.id, req.body.user, now];
     sqlEntities.push({sql: occSql, params: occParams});
-    let appoSql = "delete from appointment_table where user_id = ? and appoint_parking_unit_id = ?";
-    let appoParams = [req.body.user, req.body.id];
+    let appoSql = "delete from appointment_table where user_id = ? and appoint_parking_unit_id = ? " +
+                  "and estimated_end_time >= ?";
+    let appoParams = [req.body.user, req.body.id, now];
     sqlEntities.push({sql: appoSql, params: appoParams});
     execTrans(sqlEntities, (err, queryResult) => {
       if(err) {
