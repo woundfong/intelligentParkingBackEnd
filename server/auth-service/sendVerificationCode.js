@@ -8,7 +8,6 @@ const router = express.Router();
 const mysql = require('mysql');
 const db = require('../../config/db');
 const pool = mysql.createPool(db.mysql);
-const getDate = require('../public/getDate');
 let sql = "insert into msg_codes(phone_num, start_time, code) values(?, ?, ?)";
 
 const SMSClient = require('@alicloud/sms-sdk')
@@ -34,7 +33,8 @@ router.post('/', (req, res, next) => {
                 res.json(result);
                 return false;
             }
-            let start_time = getDate.getNowFormat("yyyy-MM-dd hh:mm:ss");
+            //let start_time = getDate.getNowFormat("yyyy-MM-dd hh:mm:ss");
+            let start_time = new Date();
             connection.query(sql, [phoneNum, start_time, code], (err, queryResult) => {
                 if(err) {
                     result.code = "0";

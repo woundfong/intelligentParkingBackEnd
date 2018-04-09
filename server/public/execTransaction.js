@@ -12,7 +12,6 @@ function execTrans(sqlEntities, callback) {
       if (err) {
         return callback(err, null);
       }
-      console.log("开始执行transaction，共执行" + sqlEntities.length + "条数据");
       let transArr = [];
       sqlEntities.forEach(function (sql_param) {
         let temp = function (cb) {

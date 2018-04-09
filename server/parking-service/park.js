@@ -4,8 +4,9 @@ const execTrans = require('../public/execTransaction');
 const mySqlQuery = require('../public/mySqlQuery');
 
 router.post('/', (req, res, next) => {
+  console.log(req.body);
     let occSql = "", result = {}, occParams = [], sqlEntities = [];
-    occSql = "insert into occupied_table(occ_parking_unit_id,user_id,start_time) values(?,?,?,?)";
+    occSql = "insert into occupied_table(occ_parking_unit_id,user_id,start_time) values(?,?,?)";
     let now = new Date();
     occParams = [req.body.id, req.body.user, now];
     sqlEntities.push({sql: occSql, params: occParams});

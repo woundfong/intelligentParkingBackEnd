@@ -22,7 +22,8 @@ router.get('/', (req, res, next) => {
   })
 })
 router.get('/count', (req, res, next) => {
-    let params = [req.query.wallet], result = {};
+    let now = new Date();
+    let params = [req.query.wallet, now], result = {};
     mySqlQuery(sql, params, (err, queryResult) => {
     if(err) {
       result.errMsg = "服务器异常";

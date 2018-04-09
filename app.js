@@ -24,6 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 let api = require('./server/api');
 app.use('/api', (req, res, next) => {
+  console.log(req.get("Authorization"))
   if(req.get("Authorization") != "wx.huanfeng.site") {
     res.send("Without Authorization!")
   } else {

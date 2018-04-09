@@ -1,12 +1,15 @@
 let express = require('express');
 let router = express.Router();
 let mySqlQuery = require('../public/mySqlQuery');
-let getDate = require('../public/getDate');
+//let getDate = require('../public/getDate');
 
 let sql = "select * from msg_codes where phone_num = ? and code = ? and start_time > ?";
 
 router.get('/', (req, res, next) => {
-    let validMinsAgoDate = getDate.getFormatValidDate("yyyy-MM-dd hh:mm:ss");
+    let now = new Date();
+    let min = now.getMinutes();
+    let validMinsAgoDate = now.setMinutes(min - 5);
+    //let validMinsAgoDate = getDate.getFormatValidDate("yyyy-MM-dd hh:mm:ss");
     console.log(validMinsAgoDate)
     let phoneNum = req.query.phoneNum, code = req.query.code;
     let result = {};

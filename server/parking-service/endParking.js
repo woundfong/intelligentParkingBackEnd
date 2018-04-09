@@ -9,7 +9,7 @@ router.post('/', (req, res, next) => {
               "on occ.occ_parking_unit_id in " + 
               "(select parking_unit_id from parking_unit where price_id = p.price_id) "+
               "where occ.occ_parking_unit_id = ?;" + 
-              "select * from coupon where wallet_id in (select wallet_id from user where user_id = ?) " +
+              "select * from coupon where wallet_id in (select wallet_id from users where user_id = ?) " +
               "and validDate >= ? and has_used = 0 order by value asc";
     let params = [req.body.parkingUnitId, req.body.user, new Date()];
     mySqlQuery(sql, params, (err, queryResults) => {
@@ -17,6 +17,7 @@ router.post('/', (req, res, next) => {
             result.errMsg = "服务器异常";
             result.code = "0";
             res.json(result);
+            throw err;
             return false;
         }
         let priceStr = queryResults[0][0].price, startTime = queryResults[0][0].start_time, 
@@ -58,7 +59,7 @@ router.post('/', (req, res, next) => {
                             "user_id,total,cost,coupon_id,has_read) values(?,?,?,?,?,?,?,0)";
         let deDuctParams = [total, req.body.user],
             deleteOccParams = [req.body.parkingUnitId],
-            addHistoryParams = [req.body.parkingUnitId, start_time, now, req.body.user, total, cost, couponId];
+            addHistoryParams = [req.body.parkingUnitId, startTime, now, req.body.user, total, cost, couponId];
         let sqlEntities = [
             {
                 sql: deDuctSql,

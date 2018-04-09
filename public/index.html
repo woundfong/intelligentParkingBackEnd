@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>iParking管理后台</title>
+    <link rel="stylesheet" href="css/iconfont/font.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="javascripts/jquery.min.js" type="text/javascript"></script>
+    <script src="javascripts/jquery.gridster.min.js" type="text/javascript"></script>
+</head>
+ 
+<body>
+    <div id="login-form">
+        <input type="text" name="username" placeholder="用户名" id="usr">
+        <input type="password" name="password" placeholder="密码" id="psw">
+        <input type="submit" value="登陆" id="login">
+    </div>
+    <div class="container iparkConsole">
+        <header>
+          <ul class="menus" id="applyList-menu">
+            <li>申请列表</li>
+          </ul>
+          <ul class="menus" id="parkingLotLayout-menu">
+            <li>停车场布局</li>
+          </ul>
+          <ul class="menus opts">
+            <li id="hori">横向</li>
+            <li id="verti">纵向</li>
+            <li id="save">保存</li>
+          </ul>
+        </header>
+        <div class="workspace">
+
+        </div>
+    </div>
+    
+    <script src="javascripts/iparkConsole.js" type="text/javascript"></script>
+
+</body>
+ 
+</html>

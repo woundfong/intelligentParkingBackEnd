@@ -11,6 +11,7 @@ const endParking = require('./endParking');
 const readPayment = require('./readPayment');
 const getParkingPrice = require('./getParkingPrice');
 const cancelAppoint = require('./cancelAppoint');
+const layout = require('./layout');
 app.use('/getParkinglots', getParkinglots);
 app.use('/getParkingUnits', getParkingUnits);
 app.use('/add', addParking);
@@ -22,6 +23,7 @@ app.use('/end', endParking);
 app.use('/read', readPayment);
 app.use('/getParkingPrice', getParkingPrice);
 app.use('/cancelAppoint', cancelAppoint);
+app.use('/layout', layout);
 app.use('/', (req, res)=> {
     res.send('parking api works');
 })

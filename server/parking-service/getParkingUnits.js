@@ -10,7 +10,7 @@ router.get('/', (req, res, next) => {
   let sql = "select * from parking_unit p left join occupied_table occ "+
             "on p.parking_unit_id = occ.occ_parking_unit_id " +
             "left join appointment_table appo on p.parking_unit_id = appo.appoint_parking_unit_id " +
-            "where latitude > ? and latitude < ? and longitude > ? and longitude < ?";
+            "where p.latitude > ? and p.latitude < ? and p.longitude > ? and p.longitude < ? and p.parking_lot_id = 1";
   let query = req.query;
   //let region = req.query.region;
   if(query.north && query.south && query.north && query.east) {

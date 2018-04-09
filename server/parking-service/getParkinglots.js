@@ -1,7 +1,7 @@
-let express = require('express');
-let router = express.Router();
-let mySqlQuery = require('../public/mySqlQuery');
-let responseWithNoCache = require('../public/responseWithNoCache')
+const express = require('express');
+const router = express.Router();
+const mySqlQuery = require('../public/mySqlQuery');
+const responseWithNoCache = require('../public/responseWithNoCache')
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
@@ -26,6 +26,7 @@ router.get('/', (req, res, next) => {
       result.errMsg = "服务器异常";
       result.code = "0";
       res.json(result);
+      throw err;
       return false;
     }
     result.errMsg = "query successfully";

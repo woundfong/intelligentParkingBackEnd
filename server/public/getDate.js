@@ -20,14 +20,7 @@ Date.prototype.format = function(fmt) {
 }
 const valid_min = 5;
 let getDate = {
-    getNowFormat: function(format) {
-        let time = new Date().format(format);
-        return time;
-    },
-    getFormatValidDate: function(format) {
-        let date = new Date();
-        let min = date.getMinutes();
-        date.setMinutes(min - valid_min);
+    getDateFormat: function(date, format) {
         let time = date.format(format);
         return time;
     },
