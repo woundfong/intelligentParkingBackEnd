@@ -54,7 +54,7 @@ router.post('/', (req, res, next) => {
                     //发送短信
                     smsClient.sendSMS({
                         PhoneNumbers: phoneNum,
-                        SignName: 'iPark',
+                        SignName: '周焕丰的共享系统',
                         TemplateCode: templateCode,
                         TemplateParam: templateParam
                     }).then(function (resp) {
@@ -69,6 +69,7 @@ router.post('/', (req, res, next) => {
                         connection.rollback(() => {
                             result.code = "0";
                             result.errMsg = err;
+                            console.log(err)
                             res.json(result);
                             return false;
                         })

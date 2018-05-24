@@ -1,12 +1,11 @@
 const express = require('express');
-let app = express();
-let sendVerificationCode = require('./sendVerificationCode');
-let checkVerificationCode = require('./checkVerificationCode');
-let login = require('./login');
+const app = express();
+const sendVerificationCode = require('./sendVerificationCode');
+const checkVerificationCode = require('./checkVerificationCode');
 
 app.use('/sendVerificationCode', sendVerificationCode);
 app.use('/checkVerificationCode', checkVerificationCode);
-app.use('/login', login);
+
 app.use('/', (req, res)=> {
     res.send('auth api works');
 })

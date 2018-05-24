@@ -4,24 +4,24 @@ const db = require('../../config/db');
 const pool = mysql.createPool(db.mysql);
  
 function execTrans(sqlEntities, callback) {
-  pool.getConnection(function (err, connection) {
+  pool.getConnection((err, connection) => {
     if (err) {
       return callback(err, null);
     }
-    connection.beginTransaction(function (err) {
+    connection.beginTransaction((err) => {
       if (err) {
         return callback(err, null);
       }
       let transArr = [];
-      sqlEntities.forEach(function (sql_param) {
+      sqlEntities.forEach((sql_param) => {
         let temp = function (cb) {
           let sql = sql_param.sql;
           let param = sql_param.params;
-          connection.query(sql, param, function (tErr, rows, fields) {
+          connection.query(sql, param, (tErr, rows, fields) => {
             if (tErr) {
-              connection.rollback(function () {
+              connection.rollback(() => {
                 console.log("事务失败，" + sql_param + "，ERROR：" + tErr);
-                throw tErr;
+                return cb(tErr, null);
               });
             } else {
               return cb(null, rows);
@@ -31,20 +31,20 @@ function execTrans(sqlEntities, callback) {
         transArr.push(temp);
       });
  
-      async.series(transArr, function (err, result) {
+      async.series(transArr, (err, result) => {
         console.log("transaction error: " + err);
         if (err) {
-          connection.rollback(function (err) {
+          connection.rollback((err) => {
             console.log("transaction error: " + err);
             connection.release();
             return callback(err, null);
           });
         } else {
-          connection.commit(function (err, info) {
+          connection.commit((err, info) => {
             console.log("transaction info: " + JSON.stringify(info));
             if (err) {
               console.log("执行事务失败，" + err);
-              connection.rollback(function (err) {
+              connection.rollback((err) => {
                 console.log("transaction error: " + err);
                 connection.release();
                 return callback(err, null);

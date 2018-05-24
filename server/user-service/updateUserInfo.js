@@ -10,7 +10,7 @@ router.post('/', (req, res, next) => {
         param = [req.body.phoneNum, account];
     }
     if(typeof req.body.license_plate !== "undefined") {
-        sql = "insert into license_plate(license_plate, owner) values(?, ?)";
+        sql = "update users set licensePlates = ? where user_id = ?";
         param = [req.body.license_plate, account];
     }
     mySqlQuery(sql, param, (err, queryResult) => {

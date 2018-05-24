@@ -4,9 +4,13 @@ const mySqlQuery = require('../public/mySqlQuery');
 
 router.get('/', (req, res, next) => {
     let result = {}, 
-        sql = "select layout from parking_lot_layout where layout_id = ?",
-        params = [req.query.id]; 
-    mySqlQuery(sql, params, (err, queryResult) => {
+        sql = "select layout from parking_lot_layout where layout_id = ?;" + 
+              "select p.num,r.reserve_id,occ.occupied_id from parking_unit p left join " + 
+              "reservation r on p.parking_unit_id = r.parking_unit_id left join occupied_table occ " +
+              "on p.parking_unit_id = occ.occ_parking_unit_id where p.parking_lot_id in " +
+              "(select parking_lot_id from parking_lot where layout_id = ?)",
+        params = [req.query.id, req.query.id]; 
+    mySqlQuery(sql, params, (err, queryResults) => {
     if(err) {
       result.errMsg = "服务器异常";
       result.code = "0";
@@ -15,7 +19,16 @@ router.get('/', (req, res, next) => {
     }
     result.errMsg = "query successfully";
     result.code = "200";
-    result.layout = queryResult[0].layout;
+    result.layout = queryResults[0][0].layout;
+    let statuss = {};
+    if(queryResults[1]) {
+      let arr = queryResults[1];
+      let len = arr.length;
+      for(let i = 0; i < len; i++) {
+        statuss[arr[i].num] = (arr[i].reserve_id || arr[i].occupied_id) ? 0 : 1;
+      }
+    }
+    result.status = statuss;
     res.json(result);
   })
 })

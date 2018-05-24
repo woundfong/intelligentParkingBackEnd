@@ -9,17 +9,17 @@ function rnd(m, n) {
 }
 
 // let sql = {
-//     insert_parkingLot: 'INSERT INTO parking_lot(pos_num, free_num, master_id, latitude, longitude, chart_id) VALUES(?,?,?,?,?,?)',
-//     insert_prakingUnit: 'INSERT INTO parking_unit(master_id, latitude, longitude) VALUES(?,?,?)'
+//     insert_parkingLot: 'INSERT INTO parking_lot(pos_num, free_num, owner_id, latitude, longitude, chart_id) VALUES(?,?,?,?,?,?)',
+//     insert_prakingUnit: 'INSERT INTO parking_unit(owner_id, latitude, longitude) VALUES(?,?,?)'
 // }
-let sql = "INSERT INTO parking_unit(master_id, parking_lot_id, latitude, longitude, address, remark, create_time)" +
-    " VALUES(?,?,?,?,?,?,?)"
+let sql = "INSERT INTO parking_unit(owner_id, parking_lot_id, latitude, longitude, address, remark, create_time, price_id, num)" +
+    " VALUES(?,?,?,?,?,?,?,?,?)"
 
 function generateParkingUnit() {
-    let count = 1, num = 199;
+    let count = 1, num = 99;
     pool.getConnection((err, connection) => {
         function insertParkingUnit() {
-            let latitude = rnd(2290000, 2305000) / 100000;
+            let latitude = rnd(2305000, 2320000) / 100000;
             let longitude =  rnd(11327000, 11344000) / 100000;
             let remark = "Auto-Generated"
             let param = {
@@ -36,7 +36,7 @@ function generateParkingUnit() {
                     let result = res.data;
                     let address = result.result.formatted_addresses.recommend;
                     let date = new Date();
-                    connection.query(sql, [1, 1, latitude, longitude, address, remark, date], (err, result)=>{
+                    connection.query(sql, [1, 1, latitude, longitude, address, remark, date, 1, 1], (err, result)=>{
                         if(result) {
                             console.log('success ' + count);
                         }else {

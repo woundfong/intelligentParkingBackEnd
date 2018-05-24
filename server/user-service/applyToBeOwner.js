@@ -2,7 +2,7 @@ let express = require('express');
 let router = express.Router();
 let mySqlQuery = require('../public/mySqlQuery');
 
-let sql = "insert into master(user_id) values(?)";
+let sql = "insert into owner(user_id) values(?)";
 
 router.post('/', (req, res) => {
     let account = req.body.account;

@@ -1,0 +1,66 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+body {
+    position: relative; 
+    background-color: #323B55;
+}
+
+#login-form {
+    width: 300px;
+    height: 150px;
+    position: absolute;
+    top: calc(50% - 75px);
+    left: calc(50% - 150px);
+    display: flex;
+    flex-direction: column;
+}
+input {
+    margin: 5px 0;
+    font-size: 16px;
+    padding: 8px;
+}
+#login {
+    color: #fff;
+    font-weight: bold;
+    text-shadow: 0px -1px 0px #5b6ddc;
+    outline: none;
+    border: 1px solid rgba(0, 0, 0, .49);
+ 
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding-box;
+    background-clip: padding-box;
+    border-radius: 6px;
+ 
+    background-color: #5466da;
+    background-image: -webkit-linear-gradient(bottom, #5466da 0%, #768ee4 100%);
+    background-image: -moz-linear-gradient(bottom, #5466da 0%, #768ee4 100%);
+    background-image: -o-linear-gradient(bottom, #5466da 0%, #768ee4 100%);
+    background-image: -ms-linear-gradient(bottom, #5466da 0%, #768ee4 100%);
+    background-image: linear-gradient(bottom, #5466da 0%, #768ee4 100%);
+     
+    -webkit-box-shadow: inset 0px 1px 0px #9ab1ec;
+    box-shadow: inset 0px 1px 0px #9ab1ec;
+     
+    cursor: pointer;
+ 
+    -webkit-transition: all .1s ease-in-out;
+    -moz-transition: all .1s ease-in-out;
+    -o-transition: all .1s ease-in-out;
+    -ms-transition: all .1s ease-in-out;
+    transition: all .1s ease-in-out;
+}
+#login:hover {
+    background-color: #5f73e9;
+    background-image: -webkit-linear-gradient(bottom, #5f73e9 0%, #859bef 100%);
+    background-image: -moz-linear-gradient(bottom, #5f73e9 0%, #859bef 100%);
+    background-image: -o-linear-gradient(bottom, #5f73e9 0%, #859bef 100%);
+    background-image: -ms-linear-gradient(bottom, #5f73e9 0%, #859bef 100%);
+    background-image: linear-gradient(bottom, #5f73e9 0%, #859bef 100%);
+ 
+    -webkit-box-shadow: inset 0px 1px 0px #aab9f4;
+    box-shadow: inset 0px 1px 0px #aab9f4;
+    margin-top: 10px;
+}

@@ -24,11 +24,11 @@ router.get('/read', (req, res, next) => {
     let result = {}, sql = "call readHistory(?)",
         params = [req.query.historyId]; 
     mySqlQuery(sql, params, (err, queryResult) => {
-      console.log(queryResult);
       if(err) {
         result.errMsg = "服务器异常";
         result.code = "0";
         res.json(result);
+        throw err;
         return false;
       }
       result.errMsg = "query successfully";

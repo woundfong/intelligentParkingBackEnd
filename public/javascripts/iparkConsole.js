@@ -2,14 +2,59 @@ var url_prefix = "http://localhost:2000/";
 var gridster;
 var unitCount = 5, nums = 5;
 var widget_base_dimensions = 25;
-function loadApplyingList(applyingList) {
+var owner;
+function getCookie(name)
+{
+    var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+    if(arr=document.cookie.match(reg)) {
+        return unescape(arr[2]);
+    } else {
+        return null;
+    } 
+}
+window.onload = function() {
+    owner = getCookie("iparkUser");
+    if(getCookie("isAdmin") == "1") {
+        $("#applyList-menu").css({display: "inline-block"})
 
+    } else {
+        $("#parkingLotLayout-menu, .opts").css({display: "inline-block"})
+        loadApplyingList();
+    }
+}
+function loadApplyingList() {
+    console.log(owner);
+    $.ajax({
+        url: url_prefix + "api/parking/getParkinglots/console",
+        data: {
+            owner: owner
+        },
+        beforeSend: function(xhr) {  
+            xhr.setRequestHeader("Authorization", "wx.huanfeng.site");  
+        },
+        success: function(res) {
+            if(res.code != "200") {
+                alert(res.errMsg);
+                return false;
+            }
+            var parkingLots = res.parkingLots, h = "<ul class='list'>";
+            if(parkingLots.length > 0) {
+                h += "<li class='title'>已有停车场</li>";
+            }
+            for(var i = 0; i < parkingLots.length; i++) {
+                h += "<li>" + parkingLots[i].remark + "</li>"
+            }
+            h += "</ul>";
+            $(".aside").append(h);
+            showLayout();
+        }
+    })
 }
 function showLayout() {
     var h = "<ul class='chart-list'>" +
             "</ul>";
     $(".workspace").html(h);
-    var workspace_width = $("body").outerWidth();
+    var workspace_width = $("body").outerWidth() - $(".aside").outerWidth() - 10;
 	//sizex的值 = 整个工作区宽度 / (基本宽度px + widget_margin)
 	var sizex = Math.floor(workspace_width / 35);
     gridster = $(".chart-list").gridster({
@@ -33,20 +78,7 @@ function showLayout() {
         gridster.add_widget.apply(gridster, widget)
     });
 }
-function successLogin(master) {
-    $("body").css({"background-color": "#fff"});
-    $("#login-form").remove();
-    $(".iparkConsole").show();
-    if(master == "admin") {
-        $("#applyList-menu").show();
 
-    } else {
-        $("#parkingLotLayout-menu").show();
-        $(".opts").show();
-        showLayout();
-        $("#parkingLotLayout-menu, .opts").css({display: "inline-block"})
-    }
-}
 $("#hori,#verti").click(function(event) {
     console.log(event.target);
     var sizex = 1, sizey = 1;
@@ -96,35 +128,6 @@ $("#save").click(function() {
                 alert("success");
             } else {
                 alert("服务器错误");
-            }
-        }
-    })
-})
-$("#login").click(function() {
-    var master = $("#usr").val(),
-        psw = $("#psw").val();
-    if(!master || !psw) {
-        alert("输入完整信息！");
-        return false;
-    }
-    var url = url_prefix + "api/user/mLogin";
-    $.ajax({
-        url: url,
-        data: {
-            master: master,
-            password: psw
-        },
-        beforeSend: function(xhr) {  
-            xhr.setRequestHeader("Authorization", "wx.huanfeng.site");  
-        },
-        contentType: "application/x-www-form-urlencoded",
-        type: "POST",
-        success: function(res) {
-            console.log(res);
-            if(res.code == "200") {
-                successLogin(master);
-            } else {
-                alert("账号密码不正确");
             }
         }
     })

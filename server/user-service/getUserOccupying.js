@@ -18,7 +18,7 @@ router.get('/', (req, res, next) => {
         res.json(result);
       } else {
         result.isOcc = true;
-        result.occInfo = queryResult[0];
+        result.occInfo = queryResult;
         res.json(result);
       }
     })

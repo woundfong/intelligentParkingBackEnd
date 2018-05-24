@@ -2,11 +2,10 @@ let express = require('express');
 let router = express.Router();
 let mySqlQuery = require('../public/mySqlQuery');
 
-let sql = "select apply_id,apply_date,address,remark from applying_list " +
-          "where apply_master_id = ?";
-
 router.get('/', (req, res, next) => {
-    let params = [req.query.master], result = {};
+    let params = [req.query.owner], result = {};
+    let sql = "select apply_id,apply_date from applying " +
+          "where apply_owner_id = ?";
     mySqlQuery(sql, params, (err, queryResult) => {
     if(err) {
       result.errMsg = "服务器异常";
@@ -20,4 +19,5 @@ router.get('/', (req, res, next) => {
     res.json(result);
   })
 })
+
 module.exports = router;
